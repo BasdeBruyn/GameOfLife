@@ -18,20 +18,22 @@ class GameController
       else
         raise ArgumentError.new(load_choice + " is no option")
     end
+    
+    get_lifecycle_duration_from_user_input
   end
   
-  def start_game(lifecycle_duration)
+  def start_game()
     @life_controller.start_lifecycle
     
     print_board
     
     begin
-      sleep(lifecycle_duration)
+      sleep(@lifecycle_duration)
     rescue SystemExit, Interrupt
       return
     end
       
-    start_game(lifecycle_duration)
+    start_game
   end
 
   private
@@ -51,6 +53,15 @@ class GameController
     
       print("Chance for cell to be alive (1-100) :")
       @life_chance = gets.chomp.to_i
+    end
+    
+    def get_lifecycle_duration_from_user_input
+      print("Time between lifecycles (seconds) :")
+      @lifecycle_duration = gets.chomp.to_f
+
+      if @lifecycle_duration <= 0
+        raise ArgumentError.new("Time between lifecycles must be higher than 0.")
+      end
     end
   
     def load_random_board

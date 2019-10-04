@@ -15,7 +15,7 @@ class GameControllerTest < MiniTest::Unit::TestCase
   end
   
   def test_loadBoardFromUserInput_fromFile
-    print_strings_to_console("y", "test/test_seeds/testSeed1.txt")
+    print_strings_to_console("y", "test/test_seeds/testSeed1.txt", "0.5")
 
     OStreamCatcher.catch do
       @game_controller.load_board_from_user_input
@@ -28,7 +28,7 @@ class GameControllerTest < MiniTest::Unit::TestCase
     expected_value = 'No such file or directory @ rb_sysopen - nonExistingFile.txt'
   
     error = assert_raises(Errno::ENOENT) do
-      print_strings_to_console("y", "nonExistingFile.txt")
+      print_strings_to_console("y", "nonExistingFile.txt", "0.5")
 
       OStreamCatcher.catch do
         @game_controller.load_board_from_user_input
@@ -42,7 +42,7 @@ class GameControllerTest < MiniTest::Unit::TestCase
   end
   
   def test_loadBoardFromUserInput_fromRandomSeed
-    print_strings_to_console("n", "20", "20", "30")
+    print_strings_to_console("n", "20", "20", "30", "0.5")
 
     OStreamCatcher.catch do
       @game_controller.load_board_from_user_input
@@ -55,7 +55,7 @@ class GameControllerTest < MiniTest::Unit::TestCase
     expected_value = 'Width must be greater than 0.'
   
     error = assert_raises(ArgumentError) do
-      print_strings_to_console("n", "-8", "10", "100")
+      print_strings_to_console("n", "-8", "10", "100", "0.5")
 
       OStreamCatcher.catch do
         @game_controller.load_board_from_user_input
@@ -72,7 +72,7 @@ class GameControllerTest < MiniTest::Unit::TestCase
     expected_value = 'Height must be greater than 0.'
   
     error = assert_raises(ArgumentError) do
-      print_strings_to_console("n", "10", "-8", "100")
+      print_strings_to_console("n", "10", "-8", "100", "0.5")
 
       OStreamCatcher.catch do
         @game_controller.load_board_from_user_input
@@ -89,7 +89,7 @@ class GameControllerTest < MiniTest::Unit::TestCase
     expected_value = 'Life chance must be between 1 and 100.'
   
     error = assert_raises(ArgumentError) do
-      print_strings_to_console("n", "10", "10", "-100")
+      print_strings_to_console("n", "10", "10", "-100", "0.5")
 
       OStreamCatcher.catch do
         @game_controller.load_board_from_user_input
@@ -106,8 +106,25 @@ class GameControllerTest < MiniTest::Unit::TestCase
     expected_value = 'Life chance must be between 1 and 100.'
   
     error = assert_raises(ArgumentError) do
-      print_strings_to_console("n", "10", "10", "200")
+      print_strings_to_console("n", "10", "10", "200", "0.5")
 
+      OStreamCatcher.catch do
+        @game_controller.load_board_from_user_input
+      end
+    
+      $stdin = STDIN
+    end
+    actual_value = error.message
+  
+    assert_equal(expected_value, actual_value)
+  end
+
+  def test_loadBoardFromUserInput_randomSeedWithNegativeLifecycleDuration_raisesArgumentErrorWithCorrectMessage
+    expected_value = 'Time between lifecycles must be higher than 0.'
+  
+    error = assert_raises(ArgumentError) do
+      print_strings_to_console("n", "10", "10", "100", "-0.5")
+    
       OStreamCatcher.catch do
         @game_controller.load_board_from_user_input
       end
