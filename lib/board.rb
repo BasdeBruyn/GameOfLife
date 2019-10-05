@@ -15,10 +15,10 @@ class Board
     @y_length
   end
   
-  def get_cell_at(x_pos, y_pos)
-    raise IndexError if x_pos < 0 || x_pos >= @x_length
-    raise IndexError if y_pos < 0 || y_pos >= @y_length
-    @cell_table[y_pos][x_pos]
+  def get_cell_at(x_index, y_index)
+    raise IndexError if x_index < 0 || x_index >= @x_length
+    raise IndexError if y_index < 0 || y_index >= @y_length
+    @cell_table[y_index][x_index]
   end
 
   def initialize_cell_table
@@ -32,8 +32,8 @@ class Board
   def to_s
     string = ''
     
-    @cell_table.each do |y_axis|
-      string += cell_row_to_s(y_axis)
+    @cell_table.each do |row|
+      string += cell_row_to_s(row)
     end
     string
   end

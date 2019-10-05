@@ -20,7 +20,7 @@ class Cell
     @will_be_alive = false
   end
 
-  def determine_life_state
+  def finalize_life_state
     @alive = @will_be_alive
   end
   

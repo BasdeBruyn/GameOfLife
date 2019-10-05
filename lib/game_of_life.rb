@@ -1,4 +1,5 @@
 require_relative 'game_controller'
+
 game_controller = GameController.new
 game_controller.load_board_from_user_input
 game_controller.start_game

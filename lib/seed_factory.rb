@@ -44,11 +44,14 @@ class SeedFactory
       def fill_seed_with_random_values
         @seed.each_index do |y_index|
           @seed[y_index].each_index do |x_index|
-            random_number = rand(1..100)
-            alive = random_number >= 1 && random_number <= @life_chance
-            @seed[y_index][x_index] = alive
+            @seed[y_index][x_index] = get_random_life_state
           end
         end
+      end
+      
+      def get_random_life_state
+        random_number = rand(1..100)
+        alive = random_number >= 1 && random_number <= @life_chance
       end
     
       def validate_random_seed_configuration

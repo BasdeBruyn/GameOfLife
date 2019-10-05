@@ -22,7 +22,7 @@ class GameController
     get_lifecycle_duration_from_user_input
   end
   
-  def start_game()
+  def start_game
     @life_controller.start_lifecycle
     
     print_board

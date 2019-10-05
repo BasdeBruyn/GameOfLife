@@ -45,7 +45,7 @@ class CellTest < MiniTest::Unit::TestCase
   end
   
   def test_determineLifeState_isAliveReturnsFalse
-    @default_cell.determine_life_state
+    @default_cell.finalize_life_state
   
     expected_value = false
     actual_value = @default_cell.is_alive
@@ -56,7 +56,7 @@ class CellTest < MiniTest::Unit::TestCase
   def test_determineLifeState_resurrectCalledOnCell_isAliveReturnsTrue
     @default_cell.resurrect
     
-    @default_cell.determine_life_state
+    @default_cell.finalize_life_state
   
     expected_value = true
     actual_value = @default_cell.is_alive
